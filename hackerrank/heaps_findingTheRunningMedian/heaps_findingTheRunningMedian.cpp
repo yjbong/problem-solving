@@ -50,7 +50,7 @@ int main() {
 			maxHeap.push(-minHeap.top());
 			minHeap.pop();
 		}
-		// maxHeap의 사이즈가 maxHeap 사이즈보다 1 이상 커지면 minHeap의 top이 더 이상 median이 되지 않으므로 maxHeap의 top을 minHeap으로 보내어 균형을 맞춰준다.
+		// maxHeap의 사이즈가 minHeap 사이즈보다 1 이상 커지면 minHeap의 top이 더 이상 median이 되지 않으므로 maxHeap의 top을 minHeap으로 보내어 균형을 맞춰준다.
 		else if (maxHeap.size()>minHeap.size()) {
 			minHeap.push(-maxHeap.top());
 			maxHeap.pop();
