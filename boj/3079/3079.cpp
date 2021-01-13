@@ -3,15 +3,18 @@
 #define MAXM 1000000000ll
 #define MAXT 1000000000ll
 typedef long long ll;
-ll N; // ÀÔ±¹½É»ç´ëÀÇ ¼ö
-ll M; // »ç¶÷ÀÇ ¼ö
-ll T[MAXN]; // T[i] = i¹ø ½É»ç´ë¿¡¼­ ½É»ç¸¦ ÇÏ´Âµ¥ °É¸®´Â ½Ã°£
+ll N; // ì…êµ­ì‹¬ì‚¬ëŒ€ì˜ ìˆ˜
+ll M; // ì‚¬ëŒì˜ ìˆ˜
+ll T[MAXN]; // T[i] = ië²ˆ ì‹¬ì‚¬ëŒ€ì—ì„œ ì‹¬ì‚¬ë¥¼ í•˜ëŠ”ë° ê±¸ë¦¬ëŠ” ì‹œê°„
 
-// M¸íÀÇ »ç¶÷µéÀÌ time ³»¿¡ ¸ğµÎ ÀÔ±¹½É»ç¸¦ ³¡³¾ ¼ö ÀÖ´Ù¸é true
+// Mëª…ì˜ ì‚¬ëŒë“¤ì´ time ë‚´ì— ëª¨ë‘ ì…êµ­ì‹¬ì‚¬ë¥¼ ëë‚¼ ìˆ˜ ìˆë‹¤ë©´ true
 bool finishable(ll time) {
 	ll done = 0;
-	for (int i = 0; i < N; i++) done += time / T[i];
-	return (done >= M);
+	for (int i = 0; i < N; i++){
+        done += time / T[i];
+        if(done >= M) return true;
+    }
+	return false;
 }
 
 int main(void) {
@@ -20,7 +23,7 @@ int main(void) {
 	for (int i = 0; i < N; i++) scanf("%lld", &T[i]);
 
 	ll ans = MAXM * MAXT;
-	// ÀÌºĞÅ½»ö
+	// ì´ë¶„íƒìƒ‰
 	ll left = 1, right = MAXM * MAXT;
 	while (left <= right) {
 		ll mid = (left + right) / 2;
