@@ -1,40 +1,33 @@
 #include <cstdio>
-int d[2][31][2];
-int a[1001];
-int main(void){
-
-    int t,w;
-    scanf("%d %d",&t,&w);
-    for(int i=1; i<=t; i++){
-        scanf("%d",&a[i]);
-        a[i]--;
+int T;
+int W;
+int fall[1001]; // fall[i] : i초에 떨어지는 위치 (1초부터 시작)
+ 
+int D[1001][31][2];
+int max2(int a, int b){ return a>b?a:b; }
+ 
+// solve(time, moves, pos)현재 시각이 time이고 남은 이동횟수가 moves, 현재 위치는 pos(0또는 1)일 때 최대로 먹을 수 있는 자두의 개수
+int solve(int time, int moves, int pos){
+    int ret=0;
+    if(time==T) return 0;
+    if(D[time][moves][pos]>=0) return D[time][moves][pos];
+    if(moves>0){
+        ret=max2(ret, solve(time+1, moves-1, 1-pos)+(fall[time+1]==1-pos?1:0));
     }
-    int max=0;
-    d[0][0][0]=(a[1]==0);
-    if(max<d[1][0][0]) max=d[0][0][0];
-    d[0][1][1]=(a[1]==1);
-    if(max<d[0][1][1]) max=d[0][1][1];
-    for(int i=2; i<=t; i++){
-        for(int j=0; j<=w; j++){
-
-            int cmax;
-
-            cmax=d[0][j][0];
-            if(j>0 && cmax<d[0][j-1][1]) cmax=d[0][j-1][1];
-            d[1][j][0]=cmax+(a[i]==0);
-            if(max<d[1][j][0]) max=d[1][j][0];
-
-            cmax=d[0][j][1];
-            if(j>0 && cmax<d[0][j-1][0]) cmax=d[0][j-1][0];
-            d[1][j][1]=cmax+(a[i]==1);
-            if(max<d[1][j][1]) max=d[1][j][1];
-        }
-
-        for(int j=0; j<=w; j++){
-            d[0][j][0]=d[1][j][0];
-            d[0][j][1]=d[1][j][1];
-        }
+    ret=max2(ret, solve(time+1, moves, pos)+(fall[time+1]==pos?1:0));
+    return D[time][moves][pos]=ret;
+}
+ 
+int main() {
+    scanf("%d %d",&T,&W);
+    for(int i=1; i<=T; i++){
+        scanf("%d",&fall[i]);
+        fall[i]--;
     }
-    printf("%d\n",max);
+    for(int i=0; i<=T; i++)
+        for(int j=0; j<=W; j++)
+            D[i][j][0]=D[i][j][1]=-1;
+    int ans=solve(0,W,0);
+    printf("%d\n",ans);
     return 0;
 }
